@@ -1,7 +1,7 @@
 object FormTrackerModify: TFormTrackerModify
-  Left = 1386
+  Left = 429
   Height = 607
-  Top = 210
+  Top = 183
   Width = 1179
   AllowDropFiles = True
   Caption = 'Bittorrent Tracker Editor'
@@ -16,7 +16,7 @@ object FormTrackerModify: TFormTrackerModify
   OnDropFiles = FormDropFiles
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '1.4.4.0'
+  LCLVersion = '2.0.4.0'
   object PageControl: TPageControl
     Left = 0
     Height = 587
@@ -72,15 +72,20 @@ object FormTrackerModify: TFormTrackerModify
           Constraints.MinHeight = 100
           ParentBidiMode = False
           TabOrder = 1
-          object CheckListBoxTrackersList: TCheckListBox
+          object StringGridTrackerOnline: TStringGrid
             Left = 0
             Height = 335
             Top = 0
             Width = 1165
             Align = alClient
-            Constraints.MinHeight = 50
-            ItemHeight = 0
+            AlternateColor = clWhite
+            ColCount = 0
+            FixedCols = 0
+            FixedRows = 0
+            Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goEditing, goSmoothScroll]
+            RowCount = 0
             TabOrder = 0
+            TitleFont.Height = -11
           end
         end
         object Splitter1: TSplitter
@@ -139,7 +144,7 @@ object FormTrackerModify: TFormTrackerModify
         Top = 0
         Width = 1171
         Align = alClient
-        ColCount = 10
+        ColCount = 11
         ColumnClickSorts = True
         Columns = <        
           item
@@ -178,6 +183,10 @@ object FormTrackerModify: TFormTrackerModify
             Width = 50
           end        
           item
+            Title.Caption = 'Source'
+            Width = 64
+          end        
+          item
             Alignment = taRightJustify
             ReadOnly = True
             Title.Alignment = taRightJustify
@@ -210,6 +219,7 @@ object FormTrackerModify: TFormTrackerModify
           145
           160
           50
+          64
           100
           100
           0
@@ -218,31 +228,66 @@ object FormTrackerModify: TFormTrackerModify
     end
     object TabSheetTorrentsContents: TTabSheet
       Caption = 'Files/Trackers/Info'
+    end
+    object TabSheetPrivateTrackers: TTabSheet
+      Caption = 'Private Trackers'
       ClientHeight = 561
       ClientWidth = 1171
-      object GroupBoxTorrentContents: TGroupBox
+      object GroupBoxItemsForPrivateTrackers: TGroupBox
         Left = 0
-        Height = 561
-        Top = 0
-        Width = 1171
-        Align = alClient
-        Caption = 'Show all the files inside the torrents'
-        ClientHeight = 543
-        ClientWidth = 1167
+        Height = 176
+        Hint = 'Private trackers URL may not end with /announce'
+        Top = 8
+        Width = 288
+        Caption = 'Items for private trackers'
+        ClientHeight = 158
+        ClientWidth = 284
         TabOrder = 0
-        object TreeViewFileContents: TTreeView
-          Left = 0
-          Height = 543
+        object CheckBoxSkipAnnounceCheck: TCheckBox
+          Left = 16
+          Height = 19
           Top = 0
-          Width = 1167
-          Align = alClient
-          AutoExpand = True
-          DefaultItemHeight = 16
-          PopupMenu = PopupMenuTorrentFilesContent
-          ReadOnly = True
-          ShowRoot = False
+          Width = 221
+          Caption = 'Skip Announce Check in the URL (-SAC)'
+          OnChange = CheckBoxSkipAnnounceCheckChange
+          ParentShowHint = False
+          ShowHint = True
           TabOrder = 0
-          Options = [tvoAutoExpand, tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoToolTips, tvoThemedDraw]
+        end
+        object GroupBoxInfoSource: TGroupBox
+          Left = 16
+          Height = 120
+          Top = 32
+          Width = 264
+          Caption = 'Warning: This will change the torrent info HASH'
+          ClientHeight = 102
+          ClientWidth = 260
+          TabOrder = 1
+          object CheckBoxRemoveAllSourceTag: TCheckBox
+            Left = 8
+            Height = 19
+            Top = 8
+            Width = 132
+            Caption = 'Remove all source tag'
+            OnChange = CheckBoxRemoveAllSourceTagChange
+            TabOrder = 0
+          end
+          object LabeledEditInfoSource: TLabeledEdit
+            Left = 8
+            Height = 21
+            Hint = 'Keep empty if you do not want to add or change anything.'
+            Top = 56
+            Width = 221
+            EditLabel.Height = 13
+            EditLabel.Width = 221
+            EditLabel.Caption = 'Add/Change source tag value: (-SOURCE)'
+            EditLabel.ParentColor = False
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 1
+            TabStop = False
+            OnEditingDone = LabeledEditInfoSourceEditingDone
+          end
         end
       end
     end
@@ -288,6 +333,26 @@ object FormTrackerModify: TFormTrackerModify
         Caption = '&Delete all the present trackers'
         OnClick = MenuTrackersKeepOrDeleteAllTrackersClick
       end
+      object MenuTrackersSeperator1: TMenuItem
+        Caption = '-'
+      end
+      object MenuTrackersDeleteUnstableTrackers: TMenuItem
+        Caption = 'Delete UNSTABLE trackers (Data from newTrackon)'
+        OnClick = MenuTrackersDeleteTrackersWithStatusClick
+      end
+      object MenuTrackersDeleteDeadTrackers: TMenuItem
+        Tag = 1
+        Caption = 'Delete DEAD trackers (Data from newTrackon)'
+        OnClick = MenuTrackersDeleteTrackersWithStatusClick
+      end
+      object MenuTrackersDeleteUnknownTrackers: TMenuItem
+        Tag = 2
+        Caption = 'Delete UNKNOWN trackers  (Data from newTrackon)'
+        OnClick = MenuTrackersDeleteTrackersWithStatusClick
+      end
+      object MenuTrackersSeperator2: TMenuItem
+        Caption = '-'
+      end
       object MenuTrackersAllTorrentArePublic: TMenuItem
         Tag = 1
         Caption = 'All torrent are &public'
@@ -304,81 +369,113 @@ object FormTrackerModify: TFormTrackerModify
       object MenuUpdateTorrentAddAfter: TMenuItem
         Caption = 'Insert new trackers list &BEFORE, the original trackers list inside the torrent file'
         object MenuUpdateTorrentAddBeforeRemoveOriginal: TMenuItem
-          Caption = 'And remove possible duplicated trackers from the ORIGINAL trackers list.'
+          Caption = 'And remove possible duplicated trackers from the ORIGINAL trackers list.(-U0)'
           OnClick = MenuUpdateTorrentAddBeforeRemoveOriginalClick
         end
         object MenuUpdateTorrentAddBeforeRemoveNew: TMenuItem
-          Caption = 'And remove possible duplicated trackers from the NEW trackers list.'
+          Caption = 'And remove possible duplicated trackers from the NEW trackers list.(-U1)'
           OnClick = MenuUpdateTorrentAddBeforeRemoveNewClick
         end
         object MenuUpdateTorrentAddBeforeKeepOriginalInstactAndRemoveNothing: TMenuItem
-          Caption = 'Keep original tracker list unchanged and remove nothing.'
+          Caption = 'Keep original tracker list unchanged and remove nothing.(-U5)'
           OnClick = MenuUpdateTorrentAddBeforeKeepOriginalInstactAndRemoveNothingClick
         end
       end
       object MenuUpdateTorrentAddBefore: TMenuItem
         Caption = 'Append new trackers list &AFTER, the original trackers list inside the torrent file.'
         object MenuUpdateTorrentAddAfterRemoveOriginal: TMenuItem
-          Caption = 'And remove possible duplicated trackers from the ORIGINAL trackers list.'
+          Caption = 'And remove possible duplicated trackers from the ORIGINAL trackers list.(-U2)'
           OnClick = MenuUpdateTorrentAddAfterRemoveOriginalClick
         end
         object MenuUpdateTorrentAddAfterRemoveNew: TMenuItem
-          Caption = 'And remove possible duplicated trackers from the NEW trackers list.'
+          Caption = 'And remove possible duplicated trackers from the NEW trackers list.(-U3)'
           OnClick = MenuUpdateTorrentAddAfterRemoveNewClick
         end
         object MenuUpdateTorrentAddAfterKeepOriginalInstactAndRemoveNothing: TMenuItem
-          Caption = 'Keep original tracker list unchanged and remove nothing.'
+          Caption = 'Keep original tracker list unchanged and remove nothing.(-U6)'
           OnClick = MenuUpdateTorrentAddAfterKeepOriginalInstactAndRemoveNothingClick
         end
       end
       object MenuUpdateTorrentSort: TMenuItem
-        Caption = '&Sort the trackers list by name.'
+        Caption = '&Sort the trackers list by name.(-U4)'
         OnClick = MenuUpdateTorrentSortClick
+      end
+      object MenuUpdateRandomize: TMenuItem
+        Caption = '&Randomize the trackers list.(-U7)'
+        OnClick = MenuUpdateRandomizeClick
+      end
+    end
+    object MenuOnlineCheck: TMenuItem
+      Caption = 'Online Check'
+      object MenuItemOnlineCheckDownloadNewTrackon: TMenuItem
+        Caption = 'Check Status Trackers (From newTrackon)'
+        OnClick = MenuItemOnlineCheckDownloadNewTrackonClick
+      end
+      object MenuItemOnlineCheckAppendStableTrackers: TMenuItem
+        Caption = 'Append Stable Trackers (From newTrackon)'
+        OnClick = MenuItemOnlineCheckAppendStableTrackersClick
+      end
+      object MenuItemOnlineCheckSubmitNewTrackon: TMenuItem
+        Caption = 'Upload trackers to newTrackon'
+        OnClick = MenuItemOnlineCheckSubmitNewTrackonClick
+      end
+    end
+    object MenuItem1: TMenuItem
+      Caption = 'ngosang/trackerslist'
+      object MenuItemNgosangAppendBest: TMenuItem
+        Caption = 'Append best'
+        OnClick = MenuItemNgosangAppendBestClick
+      end
+      object MenuItemNgosangAppendAll: TMenuItem
+        Caption = 'Append all'
+        OnClick = MenuItemNgosangAppendAllClick
+      end
+      object MenuItemNgosangAppendAllUdp: TMenuItem
+        Caption = 'Append all udp'
+        OnClick = MenuItemNgosangAppendAllUdpClick
+      end
+      object MenuItemNgosangAppendAllHttp: TMenuItem
+        Caption = 'Append all http'
+        OnClick = MenuItemNgosangAppendAllHttpClick
+      end
+      object MenuItemNgosangAppendAllHttps: TMenuItem
+        Caption = 'Append all https'
+        OnClick = MenuItemNgosangAppendAllHttpsClick
+      end
+      object MenuItemNgosangAppendAllWs: TMenuItem
+        Caption = 'Append all ws'
+        OnClick = MenuItemNgosangAppendAllWsClick
+      end
+      object MenuItemNgosangAppendAllBestIp: TMenuItem
+        Caption = 'Append best ip'
+        OnClick = MenuItemNgosangAppendAllBestIpClick
+      end
+      object MenuItemNgosangAppendAllIp: TMenuItem
+        Caption = 'Append all ip'
+        OnClick = MenuItemNgosangAppendAllIpClick
       end
     end
     object MenuHelp: TMenuItem
       Caption = '&Help'
       object MenuHelpVisitWebsite: TMenuItem
-        Caption = '&Visit website'
+        Caption = '&Visit website tracker editor'
         OnClick = MenuHelpVisitWebsiteClick
       end
       object MenuHelpReportingIssue: TMenuItem
         Caption = '&Reporting Issue'
         OnClick = MenuHelpReportingIssueClick
       end
-    end
-  end
-  object PopupMenuTorrentFilesContent: TPopupMenu
-    left = 632
-    top = 152
-    object MenuItemTorrentFilesTreeShowAll: TMenuItem
-      Tag = -1
-      Caption = 'Show Everything'
-      OnClick = MenuItemTorrentFilesTreeShowAllClick
-    end
-    object MenuItemTorrentFilesTreeHideAll: TMenuItem
-      Caption = 'Hide All'
-      OnClick = MenuItemTorrentFilesTreeHideAllClick
-    end
-    object MenuItemTorrentFilesTreeShowFiles: TMenuItem
-      AutoCheck = True
-      Caption = 'Show All Files'
-      Checked = True
-      OnClick = MenuItemTorrentFilesTreeShowOrHideItemClick
-    end
-    object MenuItemTorrentFilesTreeShowTrackers: TMenuItem
-      Tag = 1
-      AutoCheck = True
-      Caption = 'Show All Trackers'
-      Checked = True
-      OnClick = MenuItemTorrentFilesTreeShowOrHideItemClick
-    end
-    object MenuItemTorrentFilesTreeShowInfo: TMenuItem
-      Tag = 2
-      AutoCheck = True
-      Caption = 'Show All Info'
-      Checked = True
-      OnClick = MenuItemTorrentFilesTreeShowOrHideItemClick
+      object MenuHelpSeperator1: TMenuItem
+        Caption = '-'
+      end
+      object MenuHelpVisitNewTrackon: TMenuItem
+        Caption = 'Visit website new&Trackon'
+        OnClick = MenuHelpVisitNewTrackonClick
+      end
+      object MenuHelpVisitNgosang: TMenuItem
+        Caption = 'Visit website &ngosang (github)'
+        OnClick = MenuHelpVisitNgosangClick
+      end
     end
   end
 end

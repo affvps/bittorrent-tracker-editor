@@ -1,3 +1,30 @@
+------ Version 1.33
+ADD: Verify the working status of public trackers. (Issue 21)
+ADD: Wrong tracker URL format from torrent files should be unselected by default (Issue 22)
+ADD: Upload trackers to newTrackon (Issue 23)
+FIX: WebTorrent do not have '/announce'  (Issue 24)
+FiX: add support for '/announce.php'(Issue 27)
+ADD: Extra tabpage 'private torrent'. For issue 31 and 34
+ADD: Check box 'Skip Announce Check in the URL' (Issue 31)
+ADD: Command parameter '-SAC' -> 'Skip Announce Check' in the URL (Issue 31)
+ADD: Support 'Info Source' tag for private trackers (issue 34)
+ADD: Command parameter '-SOURCE' -> info Source tag for private trackers. See readme.txt file (issue 34)
+ADD: Direct download support for ngosang via menu (Issue 35)
+Compiler Lazarus: v2.04
+
+------ Version 1.32
+ADD: Add more options for updating the torrent tracker list. (Issue 8)
+ADD: Add trackers but keep the original unique trackers list instact. (Issue 12)
+ADD: Randomize tracker order for each torrent file. (Issue 19)
+FIX: Trackers with https (Issue 9)
+FIX: Read torrent file with string size langer that 1MB (Issue 10)
+FIX: Give user a warning when torrent file is read only file. (Issue 14)
+FIX: Give user a warning when torrent file update failed. (Issue 15)
+FIX: Can not be opened by dragging a file. (Issue 17)
+FIX: Need sanitize URL tracker. (Issue 18)
+FIX: WebSocket ws:// and wss:// should be accepted as input. (Issue 20)
+Compiler Lazarus: v1.62
+
 ------ Version 1.31
 ADD: tab page 'Files/Trackers/Info' show how many files count in one torrent
 ADD: tab page 'Files/Trackers/Info' show how many trackers count in one torrent

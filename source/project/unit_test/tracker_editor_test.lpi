@@ -4,15 +4,11 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <General>
-      <Flags>
-        <SaveJumpHistory Value="False"/>
-      </Flags>
       <SessionStorage Value="None"/>
       <MainUnit Value="0"/>
-      <Title Value="trackereditor"/>
+      <Title Value="tracker_editor_test"/>
+      <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
-      <UseXPManifest Value="True"/>
-      <Icon Value="0"/>
     </General>
     <i18n>
       <EnableI18N LFM="False"/>
@@ -24,12 +20,12 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="..\..\..\enduser\trackereditor"/>
+            <Filename Value="..\..\..\enduser\test_trackereditor"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="..\..\code"/>
-            <UnitOutputDirectory Value="..\..\..\lib\trackereditor\$(TargetCPU)-$(TargetOS)"/>
+            <OtherUnitFiles Value="..\..\test;..\..\code"/>
+            <UnitOutputDirectory Value="..\..\..\lib\test_trackereditor\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
             <SyntaxOptions>
@@ -48,15 +44,11 @@
           <Linking>
             <Debugging>
               <DebugInfoType Value="dsDwarf2Set"/>
+              <UseHeaptrc Value="True"/>
               <TrashVariables Value="True"/>
               <UseValgrind Value="True"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
-            <Options>
-              <Win32>
-                <GraphicApplication Value="True"/>
-              </Win32>
-            </Options>
           </Linking>
         </CompilerOptions>
       </Item2>
@@ -65,12 +57,12 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="..\..\..\enduser\trackereditor"/>
+            <Filename Value="..\..\..\enduser\test_trackereditor"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="..\..\code"/>
-            <UnitOutputDirectory Value="..\..\..\lib\trackereditor\$(TargetCPU)-$(TargetOS)"/>
+            <OtherUnitFiles Value="..\..\test;..\..\code"/>
+            <UnitOutputDirectory Value="..\..\..\lib\test_trackereditor\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
@@ -83,11 +75,6 @@
               <GenerateDebugInfo Value="False"/>
             </Debugging>
             <LinkSmart Value="True"/>
-            <Options>
-              <Win32>
-                <GraphicApplication Value="True"/>
-              </Win32>
-            </Options>
           </Linking>
         </CompilerOptions>
       </Item3>
@@ -98,91 +85,72 @@
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes Count="1">
-        <Mode0 Name="default"/>
+        <Mode0 Name="default">
+          <local>
+            <CommandLineParams Value="-a --format=plain"/>
+          </local>
+        </Mode0>
       </Modes>
     </RunParams>
-    <RequiredPackages Count="1">
+    <RequiredPackages Count="2">
       <Item1>
-        <PackageName Value="LCL"/>
+        <PackageName Value="LazUtils"/>
       </Item1>
+      <Item2>
+        <PackageName Value="FCL"/>
+      </Item2>
     </RequiredPackages>
-    <Units Count="11">
+    <Units Count="8">
       <Unit0>
-        <Filename Value="trackereditor.lpr"/>
+        <Filename Value="tracker_editor_test.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="..\..\code\bencode.pas"/>
+        <Filename Value="..\..\test\test_newtrackon.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="BEncode"/>
       </Unit1>
       <Unit2>
-        <Filename Value="..\..\code\controlergridtorrentdata.pas"/>
+        <Filename Value="..\..\code\newtrackon.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit2>
       <Unit3>
-        <Filename Value="..\..\code\decodetorrent.pas"/>
+        <Filename Value="..\..\test\test_start_up_parameter.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="DecodeTorrent"/>
       </Unit3>
       <Unit4>
-        <Filename Value="..\..\code\main.pas"/>
+        <Filename Value="..\..\code\torrent_miscellaneous.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="FormTrackerModify"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
       </Unit4>
       <Unit5>
-        <Filename Value="..\..\code\torrent_miscellaneous.pas"/>
+        <Filename Value="..\..\test\test_miscellaneous.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit5>
       <Unit6>
-        <Filename Value="..\..\code\controler_trackerlist_online.pas"/>
+        <Filename Value="..\..\code\ngosang_trackerslist.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit6>
       <Unit7>
-        <Filename Value="..\..\code\trackerlist_online.pas"/>
+        <Filename Value="..\..\test\test_ngosang_trackers_list.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit7>
-      <Unit8>
-        <Filename Value="..\..\code\newtrackon.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit8>
-      <Unit9>
-        <Filename Value="..\..\code\controler_treeview_torrent_data.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit9>
-      <Unit10>
-        <Filename Value="..\..\code\ngosang_trackerslist.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit10>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="..\..\..\enduser\trackereditor"/>
+      <Filename Value="..\..\..\enduser\test_trackereditor"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\..\code"/>
-      <UnitOutputDirectory Value="..\..\..\lib\trackereditor\$(TargetCPU)-$(TargetOS)"/>
+      <OtherUnitFiles Value="..\..\test;..\..\code"/>
+      <UnitOutputDirectory Value="..\..\..\lib\test_trackereditor\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
-    <CodeGeneration>
-      <SmartLinkUnit Value="True"/>
-    </CodeGeneration>
     <Linking>
       <Debugging>
         <DebugInfoType Value="dsDwarf3"/>
-        <StripSymbols Value="True"/>
+        <UseHeaptrc Value="True"/>
       </Debugging>
-      <LinkSmart Value="True"/>
-      <Options>
-        <Win32>
-          <GraphicApplication Value="True"/>
-        </Win32>
-      </Options>
     </Linking>
   </CompilerOptions>
   <Debugging>

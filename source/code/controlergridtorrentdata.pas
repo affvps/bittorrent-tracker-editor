@@ -1,22 +1,4 @@
-{ MIT licence
-Copyright (c) Gerry Ferdinandus
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
-and associated documentation files (the "Software"), to deal in the Software without restriction, 
-including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions 
-of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
-TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
-CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
-DEALINGS IN THE SOFTWARE.
-}
-
+// SPDX-License-Identifier: MIT
 unit controlergridtorrentdata;
 
 {
@@ -51,9 +33,10 @@ type
     FCreatedBy,             //4
     FComment,               //5
     FPrivateTorrent,        //6
-    FPieceLength,           //7
-    FTotaSize,              //8
-    FIndexOrder             //9
+    FInfoSource,             //7
+    FPieceLength,           //8
+    FTotaSize,              //9
+    FIndexOrder             //10
     : TGridColumn;
 
     FRowIsMovedNeedUpdate: boolean;
@@ -71,9 +54,10 @@ type
     CreatedBy,             //4
     Comment,               //5
     PrivateTorrent,        //6
-    PieceLength,           //7
-    TotaSize,              //8
-    IndexOrder             //9
+    InfoSource,            //7
+    PieceLength,           //8
+    TotaSize,              //9
+    IndexOrder             //10
     : UTF8String;
 
     procedure ClearAllImageIndex;
@@ -88,7 +72,7 @@ implementation
 
 { TControlerGridTorrentData }
 const
-  COLUMN_COUNT = 10;
+  COLUMN_COUNT = 11;
 
 procedure TControlerGridTorrentData.StringGridTorrentDataColRowMoved(Sender: TObject;
   IsColumn: boolean; sIndex, tIndex: integer);
@@ -156,6 +140,7 @@ begin
   WriteCell(FCreatedBy, CreatedBy);
   WriteCell(FComment, Comment);
   WriteCell(FPrivateTorrent, PrivateTorrent);
+  WriteCell(FInfoSource, InfoSource);
   WriteCell(FPieceLength, PieceLength);
   WriteCell(FTotaSize, TotaSize);
   WriteCell(FIndexOrder, IndexOrder);
@@ -193,7 +178,7 @@ begin
   FStringGridTorrentData.OnColRowMoved := @StringGridTorrentDataColRowMoved;
 
   //The view and the controler part must have the same column count.
-  Assert(FStringGridTorrentData.Columns.Count <> COLUMN_COUNT, 'Wrong column count');
+  Assert(FStringGridTorrentData.Columns.Count = COLUMN_COUNT, 'Wrong column count');
 
   //Track the column
   AddColumn(FTorrentFile, 0);
@@ -203,9 +188,10 @@ begin
   AddColumn(FCreatedBy, 4);
   AddColumn(FComment, 5);
   AddColumn(FPrivateTorrent, 6);
-  AddColumn(FPieceLength, 7);
-  AddColumn(FTotaSize, 8);
-  AddColumn(FIndexOrder, 9);
+  AddColumn(FInfoSource, 7);
+  AddColumn(FPieceLength, 8);
+  AddColumn(FTotaSize, 9);
+  AddColumn(FIndexOrder, 10);
 
   //Fillin the tag value
   UpdateColumnTag;

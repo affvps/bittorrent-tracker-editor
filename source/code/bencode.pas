@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: CC0-1.0
 {
 public domain code?
 Source code from:
@@ -33,7 +34,7 @@ type
 
   TBEncodedData = class
   public
-    Header: string;
+    Header: UTF8String;
     Data: TBEncoded;
     destructor Destroy; override;
   public
@@ -47,13 +48,13 @@ type
     function GetItems(Index: Integer): TBEncodedData;
     procedure SetItems(Index: Integer; AClass: TBEncodedData);
   public
-    function FindElement(Header: string): TBEncoded;
+    function FindElement(Header: UTF8String): TBEncoded;
     function Add(AClass: TBEncodedData): Integer;
     function Extract(Item: TBEncodedData): TBEncodedData;
     function Remove(AClass: TBEncodedData): Integer;
     function IndexOf(AClass: TBEncodedData): Integer;
 
-    function RemoveElement(Header: string): integer;//2011-1030
+    function RemoveElement(Header: UTF8String): integer;//2011-1030
 
     function First: TBEncodedData;
     function Last: TBEncodedData;
@@ -67,11 +68,11 @@ type
     FFormat: TBEncodedFormat;
     procedure SetFormat(Format: TBEncodedFormat);
   public
-    StringData: string;
+    StringData: UTF8String;
     IntegerData: int64;
     ListData: TBEncodedDataList;
     property Format: TBEncodedFormat read FFormat write SetFormat;
-    class procedure Encode(Encoded: TBEncoded; var Output: string);
+    class procedure Encode(Encoded: TBEncoded; var Output: UTF8String);
     destructor Destroy; override;
     constructor Create(Stream: TStream);
     constructor Create;
@@ -237,7 +238,7 @@ begin
   inherited Create;
 end;
 
-class procedure TBEncoded.Encode(Encoded: TBEncoded; var Output: string);
+class procedure TBEncoded.Encode(Encoded: TBEncoded; var Output: UTF8String);
 var
   i: integer;
 begin
@@ -277,7 +278,7 @@ begin
   FFormat := Format;
 end;
 
-function TBEncodedDataList.FindElement(Header: string): TBEncoded;
+function TBEncodedDataList.FindElement(Header: UTF8String): TBEncoded;
 var
   i: integer;
 begin
@@ -317,7 +318,7 @@ begin
   Result := inherited IndexOf(AClass);
 end;
 
-function TBEncodedDataList.RemoveElement(Header: string): Integer;
+function TBEncodedDataList.RemoveElement(Header: UTF8String): Integer;
 var
   i: integer;
 begin
