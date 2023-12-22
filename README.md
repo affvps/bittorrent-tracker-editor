@@ -1,18 +1,19 @@
 **bittorrent-tracker-editor** will add/remove bittorrent tracker from the torrent file(s).
-This software works on Windows XP SP3, Windows 7+, macOS and Linux.
+This software works on Windows 7+, macOS and Linux.
 
 ---
 
 ## Software latest release: ##
 [![GitHub Latest release](https://img.shields.io/github/release/GerryFerdinandus/bittorrent-tracker-editor/all.svg)](https://github.com/GerryFerdinandus/bittorrent-tracker-editor/releases)
-
+[![GitHub commits since latest release (by SemVer including pre-releases)](https://img.shields.io/github/commits-since/gerryferdinandus/bittorrent-tracker-editor/latest)](https://github.com/GerryFerdinandus/bittorrent-tracker-editor/commits/main)
 ---
 
-## Code Status: ##
-Continuous integration|Status| Build operating system
-------------|---------|---------
-Travis-CI   |[![Build Status](https://travis-ci.com/GerryFerdinandus/bittorrent-tracker-editor.svg?branch=master)](https://travis-ci.com/GerryFerdinandus/bittorrent-tracker-editor)        |Linux, macOS and Windows
-Snapcraft-CI   |[![Snap Status](https://build.snapcraft.io/badge/GerryFerdinandus/bittorrent-tracker-editor.svg)](https://build.snapcraft.io/user/GerryFerdinandus/bittorrent-tracker-editor)|Linux
+## Build Status: ##
+Continuous integration|Status| Generate an executable file for the operating system| Download link
+------------|---------|---------|----------
+GitHub Actions |[![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/gerryferdinandus/bittorrent-tracker-editor/cicd.yml)](https://github.com/GerryFerdinandus/bittorrent-tracker-editor/actions/workflows/cicd.yml)|Linux(amd64), macOS(Intel processors) and Windows|[![GitHub Latest release](https://img.shields.io/github/release/GerryFerdinandus/bittorrent-tracker-editor/all.svg)](https://github.com/GerryFerdinandus/bittorrent-tracker-editor/releases)
+GitHub Actions (Ubuntu snap) |[![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/gerryferdinandus/bittorrent-tracker-editor/snap.yml)](https://github.com/GerryFerdinandus/bittorrent-tracker-editor/actions/workflows/snap.yml)|Linux (amd64 and arm64)|[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-white.svg)](https://snapcraft.io/bittorrent-tracker-editor)
+Flathub build server||Linux (amd64 and arm64)|<a href='https://flathub.org/apps/io.github.gerryferdinandus.bittorrent-tracker-editor'><img width='180' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-i-en.svg'/></a>
 ---
 
 ## Warning: ##
@@ -48,28 +49,20 @@ There is no backup function in this software. Use it at your own risk. Bittorren
 
 ## Software history: ##
 
-### 1.33.0.beta.6 ###
+### 1.33.0 ###
+  * ADD: Support for OpenSSL 3
+  * FIX: Handle dark theme on MacOS. ([Issue 49](https://github.com/GerryFerdinandus/bittorrent-tracker-editor/issues/49))
   * ADD: Direct download support for ngosang via menu.
   * ADD: Extra tabpage 'private torrent'. For issue 31 and 34
   * ADD: Check box 'Skip Announce Check in the URL' ([Issue 31](https://github.com/GerryFerdinandus/bittorrent-tracker-editor/issues/31))
   * ADD: Command parameter '-SAC' -> 'Skip Announce Check' in the URL ([Issue 31](https://github.com/GerryFerdinandus/bittorrent-tracker-editor/issues/31))
   * ADD: Support 'Info Source' tag for private trackers ([Issue 34](https://github.com/GerryFerdinandus/bittorrent-tracker-editor/issues/34))
   * ADD: Command parameter '-SOURCE' -> info Source tag for private trackers. See readme.txt file ([Issue 34](https://github.com/GerryFerdinandus/bittorrent-tracker-editor/issues/34))
-
-### 1.33.0.beta.5 ###
   * FiX: support for '/announce.php'([Issue 27](https://github.com/GerryFerdinandus/bittorrent-tracker-editor/issues/27))
-
-### 1.33.0.beta.4 ###
   * FIX: There was an issue with uploading tracker list to newTrackon.
-
-### 1.33.0.beta.3 ###
   * FIX: WebTorrent do not have '/announce'  ([Issue 24](https://github.com/GerryFerdinandus/bittorrent-tracker-editor/issues/24))
-
-### 1.33.0.beta.2 ###
   * ADD: Wrong tracker URL format from torrent files should be unselected by default ([Issue 22](https://github.com/GerryFerdinandus/bittorrent-tracker-editor/issues/22))
   * ADD: Upload trackers to newTrackon ([Issue 23](https://github.com/GerryFerdinandus/bittorrent-tracker-editor/issues/23))
-
-### 1.33.0.beta.1 ###
   * ADD:  Verify the working status of public trackers. (Data from newTrackon) ([Issue 21](https://github.com/GerryFerdinandus/bittorrent-tracker-editor/issues/21))
 
 ### 1.32.0 ###
@@ -113,13 +106,13 @@ There is no backup function in this software. Use it at your own risk. Bittorren
 
 ---
 
-![](pictures/trackereditor.png?raw=true "Trackers List")
+![](https://github.com/GerryFerdinandus/bittorrent-tracker-editor/releases/download/V1.32.0/trackereditor_list_windows.png "Trackers List")
 
 This screen shot show the program, after a folder is selected with torrent files inside. The normal procedure is to deselect the trackers that are no longer working. Optionally add your own trackers. And select the 'Update torrent' menu.
 
 ---
 
-![](pictures/filestrackersinfo.png?raw=true "Files/Trackers/Info")
+![](https://github.com/GerryFerdinandus/bittorrent-tracker-editor/releases/download/V1.32.0/trackereditor_info_windows.png "Files/Trackers/Info")
 
 ---
 
